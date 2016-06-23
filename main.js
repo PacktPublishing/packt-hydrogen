@@ -3,6 +3,8 @@ const electron = require('electron')
 const app = electron.app
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
+// Module to create the application menu
+const Menu = electron.Menu
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -12,19 +14,38 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 1440, height: 900})
 
-  // and load the index.html of the app.
+  // Load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/content/index.html`)
 
-  // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  mainWindow.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    electron.shell.openExternal(url);
+  });
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
-    // Dereference the window object, usually you would store windows
-    // in an array if your app supports multi windows, this is the time
-    // when you should delete the corresponding element.
     mainWindow = null
   })
+
+  // Define the menu
+  let appMenu = [{
+      label: "Application",
+      submenu: [
+          { label: "About", selector: "orderFrontStandardAboutPanel:" },
+          { type: "separator" },
+          { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+      ]}, {
+      label: "Edit",
+      submenu: [
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+      ]}
+  ];
+
+  // Create the menu
+  Menu.setApplicationMenu(Menu.buildFromTemplate(appMenu));
 }
 
 // This method will be called when Electron has finished
