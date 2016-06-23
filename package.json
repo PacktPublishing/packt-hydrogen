@@ -1,6 +1,6 @@
 {
   "name": "packt-hydrogen",
-  "productName": "PACKT>",
+  "productName": "Packt",
   "version": "1.0.0",
   "description": "An interactive, multi-format course. Published by Packt.",
   "main": "main.js",

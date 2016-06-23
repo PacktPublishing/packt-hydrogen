@@ -12,7 +12,7 @@ let mainWindow
 
 function createWindow () {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 1440, height: 900})
+  mainWindow = new BrowserWindow({width: 1440, height: 900, title: 'Packt Reader', autoHideMenuBar: true})
 
   // Load the index.html of the app.
   mainWindow.loadURL(`file://${__dirname}/content/index.html`)
